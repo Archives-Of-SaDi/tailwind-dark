@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
 
 function App() {
+  const modeHandler = () => {
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('mode', document.documentElement.className);
+  };
+
+  useEffect(() => {
+    if (
+      localStorage.getItem('mode') === 'dark' ||
+      (!('mode' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="w-full h-screen bg-red-500 dark:bg-blue-500">
+        <button onClick={modeHandler}>Dark Mode</button>
+      </div>
+    </>
   );
 }
 
